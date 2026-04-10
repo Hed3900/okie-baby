@@ -79,39 +79,24 @@
   FLASH NEWS 24 🔥
 </header>
 <div class="container">
-  <iframe 
-    src="https://flashnews24.site" 
-    width="100%" 
-    height="600px" 
-    style="border:none;border-radius:10px;">
-  </iframe>
-</div>
-  <script>
-function loadPosts(data) {
-  const posts = data.feed.entry;
-  let output = "";
 
-  posts.slice(0,5).forEach(post => {
-    let title = post.title.$t;
-    let link = post.link.find(l => l.rel === "alternate").href;
-    let desc = post.summary ? post.summary.$t : "Click to read more...";
-
-    output += `
-    <div class="card">
-      <div class="card-content">
-        <div class="title">🔥 ${title}</div>
-        <div class="desc">${desc.substring(0,80)}...</div>
-        <a href="${link}" class="btn">Read More</a>
-      </div>
+  <div class="card">
+    <div class="card-content">
+      <div class="title">🔥 Latest Breaking News</div>
+      <div class="desc">Check latest updates from FlashNews24</div>
+      <a href="https://flashnews24.site" class="btn">Visit Site</a>
     </div>
-    `;
-  });
+  </div>
 
-  document.getElementById("news").innerHTML = output;
-}
-</script>
+  <div class="card">
+    <div class="card-content">
+      <div class="title">🚨 Yamuna Boat Accident</div>
+      <div class="desc">8 dead after boat capsized in Mathura</div>
+      <a href="https://flashnews24.site/2026/04/..." class="btn">Read More</a>
+    </div>
+  </div>
 
-<script src="https://flashnews24.site/feeds/posts/default?alt=json-in-script&callback=loadPosts"></script>
+</div>
 <footer>
   © 2026 FlashNews24 | All Rights Reserved
 </footer>
