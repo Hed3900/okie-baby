@@ -100,34 +100,32 @@
 🔥 Trending Now
 </div>
 <div class="container">
+  <div id="news"></div>
 
-  <!-- Card 1 -->
-  <div class="card">
-    <img src="https://source.unsplash.com/600x300/?breaking-news">
-    <div class="card-content">
-      <div class="title">🔥 Latest Breaking News</div>
-      <div class="desc">Check latest updates from FlashNews24</div>
-      <a href="https://flashnews24.site" class="btn">Visit Site</a>
-    </div>
-  </div>
+<script>
+fetch("https://flashnews24.site/feeds/posts/default?alt=json")
+.then(res => res.json())
+.then(data => {
+  let posts = data.feed.entry;
+  let output = "";
 
-  <!-- Card 2 -->
-  <div class="card">
-    <img src="https://source.unsplash.com/600x300/?accident">
-    <div class="card-content">
-      <div class="title">🚨 Yamuna Boat Accident</div>
-      <div class="desc">8 dead after boat capsized in Mathura</div>
-      <a href="https://flashnews24.site/2026/04/" class="btn">Read More</a>
+  posts.slice(0,5).forEach(post => {
+    let title = post.title.$t;
+    let link = post.link.find(l => l.rel === "alternate").href;
+
+    output += `
+    <div class="card">
+      <div class="card-content">
+        <div class="title">🔥 ${title}</div>
+        <a href="${link}" class="btn">Read More</a>
+      </div>
     </div>
-  </div>
-<div class="card">
-  <img src="https://source.unsplash.com/600x300/?technology">
-  <div class="card-content">
-    <div class="title">📱 Tech News</div>
-    <div class="desc">Latest mobile updates & leaks</div>
-    <a href="https://flashnews24.site" class="btn">Read More</a>
-  </div>
-</div>
+    `;
+  });
+
+  document.getElementById("news").innerHTML = output;
+});
+</script>
   
   <!-- Telegram Button -->
   <a href="https://t.me/flashnews24news" class="telegram">
