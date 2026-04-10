@@ -78,25 +78,36 @@
 <header>
   FLASH NEWS 24 🔥
 </header>
-  <div class="container" id="news"></div>
+  
+<div class="container" id="news">Loading...</div>
 
-  <script>
+<script>
 function loadPosts(data) {
-  const posts = data.feed.entry;
   let output = "";
 
-  posts.slice(0,5).forEach(post => {
+  if (!data.feed.entry) {
+    document.getElementById("news").innerHTML = "No posts found";
+    return;
+  }
+
+  data.feed.entry.slice(0,5).forEach(post => {
     let title = post.title.$t;
-    let link = post.link.find(l => l.rel === "alternate").href;
-    let desc = post.summary ? post.summary.$t : "Click to read more...";
+
+    let link = "#";
+    for (let i = 0; i < post.link.length; i++) {
+      if (post.link[i].rel === "alternate") {
+        link = post.link[i].href;
+        break;
+      }
+    }
+
+    let desc = post.summary ? post.summary.$t : "";
 
     output += `
-    <div class="card">
-      <div class="card-content">
-        <div class="title">🔥 ${title}</div>
-        <div class="desc">${desc.substring(0,80)}...</div>
-        <a href="${link}" class="btn">Read More</a>
-      </div>
+    <div style="background:#1c1c1c;padding:10px;margin:10px;border-radius:10px;">
+      <h3 style="color:#ffcc00;">🔥 ${title}</h3>
+      <p>${desc.substring(0,80)}...</p>
+      <a href="${link}" style="background:red;color:white;padding:6px 10px;text-decoration:none;border-radius:5px;">Read More</a>
     </div>
     `;
   });
@@ -106,7 +117,6 @@ function loadPosts(data) {
 </script>
 
 <script src="https://flashnews24.site/feeds/posts/default?alt=json-in-script&callback=loadPosts"></script>
-
 <footer>
   © 2026 FlashNews24 | All Rights Reserved
 </footer>
