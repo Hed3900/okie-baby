@@ -100,32 +100,31 @@
 🔥 Trending Now
 </div>
 <div class="container">
-  <div id="news" style="color:white;padding:10px;">Loading...</div>
+  <div id="news" style="padding:10px;">Loading news...</div>
 
 <script>
-fetch("https://api.rss2json.com/v1/api.json?rss_url=https://flashnews24.site/feeds/posts/default")
-.then(response => response.json())
-.then(data => {
-  let posts = data.items;
+fetch("https://flashnews24.site/feeds/posts/default?alt=json-in-script&callback=loadPosts")
+
+function loadPosts(data) {
+  let posts = data.feed.entry;
   let output = "";
 
-  posts.slice(0,5).forEach(post => {
+  for (let i = 0; i < posts.length && i < 5; i++) {
+    let title = posts[i].title.$t;
+    let link = posts[i].link.find(l => l.rel === "alternate").href;
+
     output += `
     <div class="card">
       <div class="card-content">
-        <div class="title">🔥 ${post.title}</div>
-        <div class="desc">${post.pubDate.split(" ")[0]}</div>
-        <a href="${post.link}" class="btn">Read More</a>
+        <div class="title">🔥 ${title}</div>
+        <a href="${link}" class="btn">Read More</a>
       </div>
     </div>
     `;
-  });
+  }
 
   document.getElementById("news").innerHTML = output;
-})
-.catch(error => {
-  document.getElementById("news").innerHTML = "⚠️ News loading failed";
-});
+}
 </script>
   
   <!-- Telegram Button -->
